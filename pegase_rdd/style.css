@@ -1,0 +1,580 @@
+
+
+body {text-align:center; background:#fff;margin:0;padding:0;color:#313131; background:#fff; text-align:left;}
+
+body,td,th,form,input,textarea,select,ul,li,ol
+{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11px;}
+/*
+body,td,th,form,input,textarea,select,ul,li,ol
+{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size:0.75em;}
+*/
+form,input { margin:0; padding:0;border:none}
+td,th { padding-left:3px; padding-right:3px;}
+
+ul {list-style-type: square;list-style-position: outside;}
+
+#bandeau { 
+    /*width:1100px; */
+           height:65px;}
+
+#demandeTX{position:relative; left:194px; top:29px; width:450px; color:#fff;}
+#logoEtablissement{top:0px;}
+#logoHeliweb{position:relative; top:0px;float:left; }
+
+#grandePage{ 
+	text-align:left;
+	width: 1100px; 
+	height: 238%; 
+	margin-left: auto; 
+	margin-right: auto; 
+	background: #fff; 
+	border: 1px solid #ccc; 
+	border-top:none; 
+	border-bottom:none; 
+	padding-right:12px; 
+	padding-left:12px; 
+	}
+
+.txOff {position:relative;top:2px;height:16px;vertical-align:top; float:left; }
+#txOn a {color:#fff;}
+#sepa {position:relative; background-image: url(img/separator.gif); width:60px; height:18px;background-repeat: no-repeat;float:left; }
+#tab_on_L{ background-image: url(img/tab_on_L.jpg); width:12px; height:18px;background-repeat: no-repeat;float:left; }
+#tab_on_R{ background-image: url(img/tab_on_R.jpg); width:12px; height:18px;background-repeat: no-repeat;float:left; }
+#ongletOn { height:18px; float:left; margin:0 5 0 5; background-image: url(img/tab_on_bg.jpg); }
+
+#txOn{  position:relative; top:2px;height:16px; vertical-align:top; float:left; color:#FFF; }
+
+#bas{  font-size:0.8em; text-align:center;height:24px; background:#fff;background-image: url(img/filet_or.gif);margin:30 20 0 20;  }
+
+#info {  width:132px; border: 1px dotted #ccc; background-image: url(img/warning.gif); margin-right:16px; background-repeat: no-repeat; background-position:5px 5px;float:right;}
+#TXwarn { position:relative;padding:3 0 3 3;width:100px;left:28px;font-weight: bold; color: #e10000;  background:#fff;}
+
+
+#tit { font-weight: bold; font-size:1em; letter-spacing:0.1em; color: #313131; padding-left:20px; background-image: url(img/puce_tit.gif); background-repeat: no-repeat; background-position:left; margin:20 0 20 0;}
+#langageVersion { position:relative; left:675px; top:8px;width:120px }
+
+
+table#formu  {width:766px; border: 1px solid #ccc;background-image: url(img/fond_tab.gif);background-color: #ececec; margin-left:20px }
+table#formu td{ padding:0 0 4 10;}
+table#disp  {width:766px; border: 1px solid #ccc;background-image: url(img/fond_tab.gif);background-color: #ececec; margin-left:20px;border-collapse: collapse;}
+table#disp td{ padding:4;}
+
+#infoCEF { border: 1px solid #ccc; padding:8 12 8 12; margin-right:15px;}
+
+input,select  {margin: 0; font-size:0.9em; height:1.8em; border: 1px solid #999;padding-left: 2px;}
+.radio  {vertical-align: middle; margin: 0 5 0 0; border:0;}
+.radio1  {vertical-align: middle; margin: 0 5 0 20; border:0;}
+.selectPageAccueil  {vertical-align: middle; margin: 0 5 0 20; border:0;}
+.subm {color: #e95500;padding: 0 6 0 6;border: 1px  solid  #ccc;background-color: #fff;font-weight: bold;text-transform:uppercase; background-image: url(img/subm.jpg);}
+.submMargin {color: #e95500;padding: 0 6 0 6;border: 1px  solid  #ccc;background-color: #fff;font-weight: bold;text-transform:uppercase; background-image: url(img/subm.jpg); margin-left:0px;}
+.popupbuttonMargin {margin-right:20px;}
+
+.small {font-size: 0.8em; }
+.copy{ background-color: #fff; padding:0 10 0 10; color:#8c8c8c;}
+
+.annee {font-size: 1.3em; font-weight: bold;}
+
+
+#onglets {
+	width:980px; height:24px;
+	font-weight: bold; font-size:1em; border-bottom:1px #b8cfff solid;
+}
+#onglets a:hover { color:#e95500; font-weight:bold; text-decoration:underline; color:#313131;}
+
+#separationBandeau {
+	width:980px; height:0px;
+	font-weight: bold; font-size:1em; border:none;
+	padding-left:6px;
+	padding-right:6px;
+}
+
+
+.blueBG { background-color:#f0f6ff;}
+.clearblueBG { background-color:#f0f6ff;}
+
+
+#ongletOn { height:24px; float:left; background-image: url(img/ongletOnMileu.JPG); background-repeat:repeat;}
+#ongletOnDebut { background-image: url(img/ongletOnDebut.JPG); width:5px; height:24px; background-repeat:no-repeat;float:left;margin-right:8}
+#ongletOnFin { background-image: url(img/ongletOnFin.JPG); width:5px; height:24px;background-repeat: no-repeat;float:left;margin-left:8}
+
+#texteOn{  position:relative; top:6px;height:16px; vertical-align:top; float:left; color:#FFFFF; }
+
+#ongletOff { height:24px; float:left;  background-image: url(img/ongletOffMileu.JPG); background-repeat:repeat; }
+#ongletOffDebut { background-image: url(img/ongletOffDebut.JPG); width:5px; height:24px;background-repeat: no-repeat;float:left; margin-right:8}
+#ongletOffFin { background-image: url(img/ongletOffFin.JPG); width:5px; height:24px;background-repeat: no-repeat;float:left;margin-left:8}
+
+#texteOff{  position:relative; top:6px;height:16px; vertical-align:top; float:left; color:#FFFFF; }
+
+#compteurAgent{ position:relative; top:0px; float:left; margin-left:16px;}
+#compteurAgentFixe{position:relative; top:0px; float:left;}
+
+
+th{ white-space:nowrap;}
+
+
+td.intitule { text-align:right; font-weight:bold; white-space:nowrap;}
+
+
+.separationEtablissement { background:#5f95ff; height:2px} /*background:#b8cfff;*/
+.separationHorsEtablissement { background:#FF9900; height:2px}
+.separationPrime { background:#759CF9; height:2px}
+
+td.separationServices { background:#497EE4;}
+
+td.menu {
+	/*background-image: url(img/ligneMenu.JPG);*/
+	background-color:#fff;
+	border:#b8cfff 2px solid ;
+	color:#5f95ff;
+	font-weight: bold;
+	font-size:1.1em;
+	padding-left:5px;
+}
+
+td.titreMatiere {
+	/*background-image: url(img/ligneMenu.JPG);*/
+	background-color: #fff;
+/*	border:#b8cfff 2px solid ;*/
+	color: #5f95ff;
+	font-weight: bold;
+	font-size: 1.1em;
+	padding-left: 5px;
+	 text-align: center;
+}
+/* ancien
+a.serviceEtablissement { color:#5f95ff; font-weight:bold; text-decoration:none;}
+a.serviceHorsEtablissement { color:#FF9900; font-weight:bold; text-decoration:none;}
+a.servicePrime { color:#759CF9; font-weight:bold; text-decoration:none;}
+a.serviceEtablissementDifference { color:#ff000d; font-weight:bold; text-decoration:none;}
+*/
+.serviceEtablissement { color:#5f95ff; font-weight:bold; text-decoration:none; background:none; border:none; cursor:pointer}
+.serviceEtablissement:hover { color:#5f95ff; font-weight:bold; text-decoration:none;background:none; border:none; cursor:pointer}
+
+.serviceHorsEtablissement { color:#FF9900; font-weight:bold; text-decoration:none; background:none; border:none; cursor:pointer}
+.serviceHorsEtablissement:hover { color:#FF9900; font-weight:bold; text-decoration:none;background:none; border:none; cursor:pointer}
+
+.servicePrime { color:#33CC99; font-weight:bold; text-decoration:none; background:none; border:none; cursor:pointer}
+.servicePrime:hover { color:#33CC99; font-weight:bold; text-decoration:none;background:none; border:none; cursor:pointer}
+/*
+.serviceEtablissementDifference { color:#ff000d; font-weight:bold; text-decoration:none; background:none; border:none; cursor:pointer}
+.serviceEtablissementDifference:hover { color:#ff000d; font-weight:bold; text-decoration:none;background:none; border:none; cursor:pointer}
+*/
+.serviceEtablissementDifference { color:#ff000d; font-weight:bold; text-decoration:none; background:none; border:none; cursor:pointer}
+.serviceEtablissementDifference:hover { color:#ff000d; font-weight:bold; text-decoration:none;background:none; border:none; cursor:pointer}
+
+/*
+.bgcolorServiceEtablissement {background-color:#f0f6ff;}
+.bgcolorServiceHorsEtablissement {background-color:#f0f6ff;}
+.bgcolorServicePrime {background-color:#f0f6ff;}
+*/
+
+.bgcolorService {background-color:#f0f6ff;}
+.bgcolorServiceMatiere {background-color:#f0f6ff;}
+
+/*---*/
+
+
+/*.subCent {float:left; margin:0; padding:0; border:#00CC66 solid 0px}*/
+.subL{background-image: url(img/but_sub_l.jpg); width:5px; height:26px; float:left; }
+#sub {
+	background-image: url(img/but_sub_bg.jpg); 
+	background-repeat:repeat; 
+	text-transform:uppercase; 
+	text-align:center; 
+	height:26px; 
+	border:0; 
+	margin:none; 
+	padding:none/*padding-top:0*/; 
+	float:left; }
+.subR{background-image: url(img/but_sub_r.jpg); width:5px; height:26px;float:left; margin-bottom:1em; }
+
+
+
+/*.subCent {float:left; margin:0; padding:0; border:#00CC66 solid 0px}*/
+.btImpL{background-image: url(img/btImpL.png); width:5px; height:26px; float:left; }
+.btImp1{background-image: url(img/btImp1.png); width:19px; height:26px; float:left; }
+#btImp2 {
+	background-image: url(img/btImp2.png); 
+	background-repeat:repeat; 
+	text-transform:uppercase; 
+	text-align:center; 
+	height:26px; 
+	border:0; 
+	margin:none; 
+	padding:none/*padding-top:0*/; 
+	float:left; }
+.btImpR{background-image: url(img/btImpR.png); width:4px; height:26px;float:left; margin-bottom:1em; }
+
+
+
+.bouton  {background-color: transparent; border: none; font-size:1.1em; /*font-weight:bold;*/}
+.bouton2 {
+	background-color: transparent; 
+	border: none; 
+	font-size: 0.9em; 
+	/*font-weight:bold;*/ 
+	/*margin: auto;*/
+	}
+
+.boutonEntree  {background-color: transparent; border: none; font-size:1.3em; vertical-align:text-bottom; font-weight:bold;}
+.textPostit {font-size:1em;}
+.textPostitDisable {font-size:1em; font-weight:bold;}
+
+
+/*font-size:1.2em; */
+/*------------------------------------------------------------------------------- */
+TABLE { border-collapse: collapse;
+        /*border: 1px solid blue;*/
+        border-color: #EEEEEE;
+      }
+
+/*------------------------------------------------------------------------------- */
+
+a.boutonDuppliquerEtablissement  {
+     display: block;
+     width: 9px;
+     height: 13px;
+     background-color: transparent;
+     background-image: url(img/iconeDuppliquerEtablissement.JPG);
+     background-repeat: no-repeat;
+     border: 0px;
+     margin: 0px;
+	 font-size: 13px;
+	 font-weight: bolder;
+	 padding-right: 3px;
+	 /*padding-left: 2px;*/
+}
+
+a.boutonDuppliquerHorsEtablissement  {
+     display: block;
+     width: 9px;
+     height: 13px;
+     background-color: transparent;
+     background-image: url(img/iconeDuppliquerHorsEtablissement.JPG);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+	 padding-right: 3px;
+	 /*padding-left: 2px;*/
+}
+
+
+a.corbeilleInactive  {
+     display: block;
+     width: 32px;
+     height: 17px;
+     background-color: transparent;
+     background-image: url(img/corbeilleInactive.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+	 cursor:text;
+}
+
+a.corbeille  {
+     display: block;
+     width: 32px;
+     height: 17px;
+     background-color: transparent;
+     background-image: url(img/corbeille.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+	 title:"d�truire la ligne (si elle ne contient que des heures nulles !)";
+}
+
+a.dimensionCorbeille  {
+     display: block;
+     width: 32px;
+     height: 17px;
+     background-color: transparent;
+     background-image: url(img/dimensionCorbeille.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+	 title:"Les heures de la ligne ne sont pas nulles !";
+}
+
+a.corbeille:hover  {
+     display: block;
+     width: 32px;
+     height: 32px;
+     background-color: transparent;
+     background-image: url(img/corbeilleHover.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+}
+a.corbeille:active  {
+     display: block;
+     width: 32px;
+     height: 32px;
+     background-color: transparent;
+     background-image: url(img/corbeilleHover.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+}
+
+/*-------- version bouton --------*/
+.boutonDuppliquerEtablissement  {
+     display: block;
+     width: 9px;
+     height: 13px;
+     background-color: transparent;
+     background-image: url(img/iconeDuppliquerEtablissement.JPG);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+	 padding-right: 3px;
+	 /*padding-left: 2px;*/
+}
+
+.boutonDuppliquerHorsEtablissement  {
+     display: block;
+     width: 9px;
+     height: 13px;
+     background-color: transparent;
+     background-image: url(img/iconeDuppliquerHorsEtablissement.JPG);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+	 padding-right: 3px;
+	 /*padding-left: 2px;*/
+}
+
+
+.corbeilleInactive  {
+     display: block;
+     width: 32px;
+     height: 17px;
+     background-color: transparent;
+     background-image: url(img/corbeilleInactive.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+	 cursor:text;
+}
+
+.corbeille  {
+     display: block;
+     width: 32px;
+     height: 17px;
+     background-color: transparent;
+     background-image: url(img/corbeille.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+	 cursor:pointer;
+}
+
+.dimensionCorbeille  {
+     display: block;
+     width: 32px;
+     height: 17px;
+     background-color: transparent;
+     background-image: url(img/dimensionCorbeille.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+}
+
+.corbeille:hover  {
+     display: block;
+     width: 32px;
+     height: 32px;
+     background-color: transparent;
+
+     background-image: url(img/corbeilleHover.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+}
+.corbeille:active  {
+     display: block;
+     width: 32px;
+     height: 32px;
+     background-color: transparent;
+     background-image: url(img/corbeilleHover.gif);
+     background-repeat: no-repeat;
+     border:0px;
+     margin:0px;
+	 font-size:13px;
+	 font-weight:bolder;
+}
+
+/* Bab 20100721 */
+/*.invisible	{ display:none; visibility:none; }*/
+.invisible	{ display: none;}
+.visible	{
+	 display: block;
+	/*visibility: visible;*/
+	}
+.anomalie{
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background-color: #FEEDED;
+  font-size: 10px;
+  color: red;
+  margin: 2px;
+  padding: 2px;
+
+  }
+#messageAnomalie{
+  background-color: #FFF;
+  border: thin;
+  border-color: red;
+  border-style: solid;
+  position: absolute;
+  display: block;
+  margin: 0px;
+  z-index: 3000;
+    }
+#messageAnomalie th{
+  background-color: red;
+  margin: 0px;
+  padding: 0px;
+    }
+
+.messInfo{
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background-color: #99CCFF;
+  font-size: 10px;
+  color: blue;
+  margin: 2px;
+  padding: 2px;
+
+  }
+#messageInfo{
+  background-color: #FFF;
+  border: thin;
+  border-color: blue;
+  border-style: solid;
+  position: absolute;
+  text-align: left;
+  display: block;
+  margin: 0px;
+  z-index: 3000;
+    }
+
+div#messageInfo table.consInfo	{
+
+  margin-left:auto;
+  margin-right:auto;
+
+  position: center;
+  width: 500px;
+}
+#messageInfo th{
+  background-color: blue;
+  margin: 0px;
+  padding: 0px;
+
+
+    }
+
+td.ajax	{
+	background-color : #ECF9FF;
+/*	font-family: Courier, "Courier New";*/
+	font-size: 9px;
+/*	border-collapse:collapse; */
+/*	visibility:visible; */
+/*	float: left;*/
+
+	}
+/*
+option.ajax		{
+	font-size: 10pt;
+	border:1px solid black;
+	padding:0px 8px;
+	background-color:#ECF9FF;
+	}
+*/
+select.ajax:hover	{
+	background-color:#ECF9FF;
+	cursor:pointer;
+	}
+
+h3 {
+	/*background-image: url(img/ligneMenu.JPG);*/
+	background-color:#fff;
+	/*border:#b8cfff 2px solid ;*/
+	color:#5f95ff;
+	font-weight: bold;
+	font-size:1.1em;
+	padding-left: 0px;
+}
+
+
+.lienInfo {
+	color: #5f95ff;
+	/*font-weight: bold;*/
+	text-decoration: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size:10px;
+	}
+
+.rouge { color: red;
+		font-weight: bold;}
+.vert { color: green;
+		font-weight: bold;}
+/*
+.boutonTransparent  {
+	background-color: #FFFFFF;
+	color: #FFFFFF;
+	border: none;
+	font-size: 0pt;
+    width: 0px;
+    height: 0px;
+   	padding: none;
+   	margin: none;
+
+   	}
+*/
+#subBoutonTransparent {
+	/*background-image: url(img/but_sub_transparent.JPG);*/
+	background-repeat:repeat;
+	text-transform:uppercase;
+	text-align:center; height:0px; border:0;
+	margin:none;
+	padding:none/*padding-top:0*/;
+	float:left; }
+.boutonTransparent  {
+	background-color: transparent;
+	color: transparent;
+	border: none;
+	font-size: 0pt;
+    width: 0px;
+    height: 0px;
+   	padding: none;
+   	margin: none;
+
+   	/*font-weight:bold;*/}
+
+
+/* fin Bab 20100721 */

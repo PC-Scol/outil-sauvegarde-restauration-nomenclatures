@@ -1,2 +1,6 @@
 # outil-sauvegarde-restauration-nomenclatures
-Outil de sauvegarde et de restauration de nomenclatures développé par l'USMB
+Outil PHP permettant de sauvegarder et d'injecter un certain nombre de nomenclatures.
+
+Développé par l'USMB.
+
+Documentation : cf RDD_pegase_OutilSauvegardeRestaurationNomenclature.odt
