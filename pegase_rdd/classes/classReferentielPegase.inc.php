@@ -777,22 +777,138 @@ function formatJsonPourAppelAPIPegase($selectionInfosBD, $actionMaj, $paramsEtab
         $i=0;
         while ($i<count($selectionInfosBD)) {
            
+            //echo 'A convertir  ===== <pre>';
+            //print_r($selectionInfosBD[$i]);
+            //echo 'fin element a convertir ===== <pre>';
             $jsonRef = json_encode($selectionInfosBD[$i]);
-            //echo '<pre>';
+            //echo 'convertit en json ===== <pre>';
             //print_r($jsonRef);
-            //echo '</pre><br>';
+            //echo 'fin element convertit en json</pre><br>';
             $resultat= BaseDeDonnees::AppelAPIRecupReferentielMajInfos( $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif, $jsonRef);
-            //echo 'resultat : '.print_r($resultat).'<br>';
+            echo 'resultat : '.print_r($resultat).'<br>';
 
             $i++;
             }
 
             echo 'Nombre de ligne traitées : '.$i.'<br>';
-            //print_r($resultat);
+            print_r($resultat);
             return $resultat;
 
     
 }
+/*
+
+function AppelAPIRecupReferentielRecupInfos ($pNomenclature, $paramEtab, $pEnv, $pToken, $pCheminRelatif)
+{
+    //echo '<br>===> AppelAPIRecupReferentielRecupInfos : Entree - '.$pCheminRelatif.'<br>';
+
+    
+    //echo 'Chemin API : '.$paramEtab[$pEnv]['url_api_ref'].$pCheminRelatif.'<br>';
+    
+    $tuCurl = curl_init();
+    curl_setopt($tuCurl, CURLOPT_URL, $paramEtab['url_api_ref'].$pCheminRelatif);
+    //curl_setopt($tuCurl, CURLOPT_PORT , 443);
+    curl_setopt($tuCurl, CURLOPT_VERBOSE, TRUE);
+    //curl_setopt($tuCurl, CURLOPT_HEADER, TRUE);
+    //curl_setopt($tuCurl, CURLOPT_SSLVERSION, 3);
+    //curl_setopt($tuCurl, CURLOPT_POST, TRUE);
+    //curl_setopt($tuCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, TRUE);
+
+
+    $tuData = curl_exec($tuCurl);
+    //echo 'status<br>';
+    //$status = curl_getinfo($tuCurl,CURLINFO_HTTP_CODE);
+    //print_r($status);
+
+    if(!curl_errno($tuCurl)){
+
+      $info = curl_getinfo($tuCurl);
+
+      //echo 'Took ' . $info['total_time'] . ' seconds to send a request to ' . $info['url'];
+
+    } else {
+
+      echo 'Curl error: ' . curl_error($tuCurl).'<br>';
+      var_dump($tuCurl);
+      echo '<br>Code retour anomalie '.curl_errno($tuCurl);
+
+
+
+    }
+
+    curl_close($tuCurl);
+    //var_dump($tuData);
+                
+    return $tuData;
+
+}
+*/
+
+/*
+function AppelAPIRecupReferentielMajInfos ($pNomenclature, $paramEtab, $pEnv, $pToken, $pCheminRelatif,$pJson)
+{
+    //echo '<br>===> AppelAPIRecupReferentielMajInfos : Entree - '.$pCheminRelatif.'<br><br>';
+    
+    $tuCurl = curl_init();
+    curl_setopt($tuCurl, CURLOPT_URL, $paramEtab['url_api_ref'].$pCheminRelatif);
+    //curl_setopt($tuCurl, CURLOPT_PORT , 443);[
+    curl_setopt($tuCurl, CURLOPT_VERBOSE, TRUE);
+    
+    //curl_setopt($tuCurl, CURLOPT_SSLVERSION, 3);
+    curl_setopt($tuCurl, CURLOPT_POST, TRUE);
+    curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
+    //curl_setopt($tuCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, TRUE);
+
+    //curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $data);
+    //curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $auth);
+    curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
+    //curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);  
+    $token="Authorization: Bearer ".trim($pToken);
+    $auth=$paramEtab['login_api'].":".$paramEtab['mdp_api'];
+    curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);
+    $header = array ("Content-Type: application/json",$token);
+    curl_setopt($tuCurl, CURLOPT_HEADER, TRUE);
+    curl_setopt($tuCurl, CURLOPT_HTTPHEADER, $header);
+
+
+    $tuData = curl_exec($tuCurl);
+    //echo 'affichage du message retour<br><pre>';
+    //var_dump($tuData);
+    //echo '</pre>';
+    
+    
+    $posMessage=stripos($tuData,'{"message"' );
+    if ($posMessage>0) {
+        $lenMessage=strlen($tuData)-$posMessage;
+        $message= substr($tuData,$posMessage,$lenMessage);
+        $tabAno= json_decode($message);
+        echo "Anomalie sur la mise à jour de l'occurance<pre>";
+        echo "Ocurance : ".$pJson.'<br>';
+        print_r($tabAno);
+        echo '</pre>';
+    }
+    
+    
+    
+    
+    if(curl_errno($tuCurl)){
+      echo 'Curl error: ' . curl_error($tuCurl).'<br>';
+      var_dump($tuCurl);
+      echo '<br>Code retour anomalie '.curl_errno($tuCurl);
+      echo '<br><br><br>';
+
+
+    }
+
+    curl_close($tuCurl);
+    //var_dump($tuData);
+                
+    return $tuData;
+
+}
+*/
 function formatRefBourseAideFinancieres ($bdRef) {
     
         //echo 'Entrer dans formatRefBourseAideFinancieres '.count($bdRef).'<br>';
@@ -810,15 +926,43 @@ function formatRefBourseAideFinancieres ($bdRef) {
             $selectionInfosBD[$i]['dateDebutValidite']=$bdRef[$i]['dateDebutValidite'];
             
             $selectionInfosBD[$i]['dateFinValidite']= $this::formatDateFinValiditeVersPegase($bdRef[$i]['dateFinValidite']);
+            /*
+            if ($bdRef[$i]['dateFinValidite']<>"") 
+                $selectionInfosBD[$i]['dateFinValidite']=$bdRef[$i]['dateFinValidite'];
+                else $selectionInfosBD[$i]['dateFinValidite']=null;
+            */    
+            
             $selectionInfosBD[$i]['temoinVisible']=ChaineCaracteres::formatBooleanVersAPI($bdRef[$i]['temoinVisible']);
+            /*
+            if ($bdRef[$i]['temoinVisible']=='t')
+                $selectionInfosBD[$i]['temoinVisible']=true ; 
+                elseif ($bdRef[$i]['temoinVisible']=='f' ) 
+                    $selectionInfosBD[$i]['temoinVisible'] = false ;
+                else $selectionInfosBD[$i]['temoinVisible']='null';
+            */    
+            //echo 'livre '.$bdRef[$i]['temoinLivre'].'<br>';        
             
             $selectionInfosBD[$i]['temoinLivre']=ChaineCaracteres::formatBooleanVersAPI($bdRef[$i]['temoinLivre']);
+            /*
+            if ($bdRef[$i]['temoinLivre']=='t')
+                $selectionInfosBD[$i]['temoinLivre']=true ; 
+                elseif ( $bdRef[$i]['temoinLivre']=='f' ) 
+                    $selectionInfosBD[$i]['temoinLivre'] = false ;
+                else $selectionInfosBD[$i]['temoinLivre']='null';
+            */    
             $selectionInfosBD[$i]['exoinsExtra']=$bdRef[$i]['exoinsExtra'];
             $selectionInfosBD[$i]['codeBcn']=$bdRef[$i]['codeBcn'];
 
             //echo 'exoneration '.$i. ' '.$bdRef[$i]['temoinExoneration'].'<br>';
             
             $selectionInfosBD[$i]['temoinExoneration']=ChaineCaracteres::formatBooleanVersAPI($bdRef[$i]['temoinExoneration']);
+            /*
+            if ($bdRef[$i]['temoinExoneration']=='t')
+                $selectionInfosBD[$i]['temoinExoneration']=true ; 
+                elseif ( $bdRef[$i]['temoinExoneration']=='f' ) 
+                    $selectionInfosBD[$i]['temoinExoneration'] = false ;
+                else $selectionInfosBD[$i]['temoinExoneration']='null';
+            */ 
             //$selectionInfosBD[$i]['temoinExoneration']=$bdRef[$i]['temoinExoneration'];    
             $selectionInfosBD[$i]['typeBourse']=$bdRef[$i]['typeBourse'];
             $selectionInfosBD[$i]['exoinsCom']=$bdRef[$i]['exoinsCom'];
@@ -884,10 +1028,33 @@ function formatRefGeneriqueAvecCBN ($bdRef) {
             $selectionInfosBD[$i]['dateDebutValidite']=$bdRef[$i]['dateDebutValidite'];
             
             $selectionInfosBD[$i]['dateFinValidite']= $this::formatDateFinValiditeVersPegase($bdRef[$i]['dateFinValidite']);
+            /*
+            if ($bdRef[$i]['dateFinValidite']<>"") 
+                $selectionInfosBD[$i]['dateFinValidite']=$bdRef[$i]['dateFinValidite'];
+                else $selectionInfosBD[$i]['dateFinValidite']=null;
+            */    
             
             $selectionInfosBD[$i]['temoinVisible']=ChaineCaracteres::formatBooleanVersAPI($bdRef[$i]['temoinVisible']);
+            /*
+            if ($bdRef[$i]['temoinVisible']=='t')
+                $selectionInfosBD[$i]['temoinVisible']=true ; 
+                elseif ($bdRef[$i]['temoinVisible']=='f' ) 
+                    $selectionInfosBD[$i]['temoinVisible'] = false ;
+                else $selectionInfosBD[$i]['temoinVisible']='null';
+            */    
+            //echo 'livre '.$bdRef[$i]['temoinLivre'].'<br>';        
+            
             $selectionInfosBD[$i]['temoinLivre']=ChaineCaracteres::formatBooleanVersAPI($bdRef[$i]['temoinLivre']);
+            /*
+            if ($bdRef[$i]['temoinLivre']=='t')
+                $selectionInfosBD[$i]['temoinLivre']=true ; 
+                elseif ( $bdRef[$i]['temoinLivre']=='f' ) 
+                    $selectionInfosBD[$i]['temoinLivre'] = false ;
+                else $selectionInfosBD[$i]['temoinLivre']='null';
+            */    
             $selectionInfosBD[$i]['codeBcn']=$bdRef[$i]['codeBcn'];
+
+            //echo 'exoneration '.$i. ' '.$bdRef[$i]['temoinExoneration'].'<br>';
 
             $i++;
             
