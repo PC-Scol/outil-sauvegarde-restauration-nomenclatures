@@ -6,6 +6,10 @@
  * @package Classes
  * @subpackage BaseDeDonnees
  *
+ * <b>Suivi de modification</b><br>
+ * - 20110401 : 2.15 : Securisation du mot de passe
+ * - 20140109 : 2.50 : Blocage appli si champ LIB_BLOC_APPLI renseign� dans TLABEL
+ * - 26/03/2014 : 8.00 : Modification de la gestion des acces
  */
 
 class BaseDeDonnees
@@ -49,6 +53,60 @@ class BaseDeDonnees
         {
 
         }
+
+
+    function connexionLDAP ($pAdrLdap,$pEtab,$pUser, $pPass)
+    {
+
+
+	$ldap_host = $pAdrLdap; //inserer ici l'addresse du serveur LDAP
+	//echo 'adresse '.$pAdrLdap.'<br>';
+
+	$user = $this->user; // on traite les information recolt�es
+
+
+	//$password = $this->pass;
+
+	$user = $pUser; // on traite les information recolt�es
+	$password = $pPass;
+
+	$etab=strtolower($pEtab);
+	//echo 'etab '.$etab.' user '.$user.'<br>';
+/*
+	$ds = ldap_connect($ldap_host) // connexion en anonymous
+	 or  exit(">>Connexion au serveur LDAP echou�<<");
+*/
+	$ds = ldap_connect($ldap_host) // connexion en anonymous
+	 or  exit(">>Connexion au serveur LDAP echou�<<");
+	 
+
+	if ($ds)
+	 {
+
+		 $dn = "uid=".$user.",ou=people,ou=".$etab.",dc=agalan,dc=org";
+		 if ($password == "") $password = "@";
+		 // bind ldap pour tester si il existe dans ldap
+		 $r=@ldap_bind($ds, $dn, $password);
+
+		return $r;
+
+	 }
+	else
+	{
+
+		echo 'connection ldap ko<br>';
+		//echo  "Impossible de se connecter au serveur LDAP<br>";
+
+	}
+
+	return $ds;
+
+	// echo 'ClasseBD : sortie connexionLDAP<br>';
+
+
+	}
+
+
 
 
 	function setFonction($pFonction){$this->fonction=$pFonction;}
@@ -98,13 +156,17 @@ class BaseDeDonnees
 		$this->user=ChaineCaracteres::password_decode($pLogin);
 		$this->pass=ChaineCaracteres::password_decode($pMDP);
 		$this->base=$pBase;
-
+		
 		PutEnv("TNS_ADMIN=/etc/tnsnames.ora");
+
+		//echo 'db '.$db.'<br>';
 		if ($c=oci_connect($this->user, $this->pass, $pBase)){
+
 		    return $c;
 		  } else {
 		    $err = OCIError();
 		  }
+
 
 		return $err;
 
@@ -116,14 +178,28 @@ class BaseDeDonnees
 function recuperationTokenAPIPegase( $paramEtab) {
     
     
+        
+    //echo "<br>recuperatoinTokenAPIPegase : Entree<br>";
+    
+    //$paramEtab=$tabParamEtab[$pEtab][$pEnv];
+    //$paramEtab=$this->rechercheParamEtablissements($pEtab, $pEnv);
+    
+    //print_r($paramEtab);
     
     $tuCurl = curl_init();
     curl_setopt($tuCurl, CURLOPT_URL, $paramEtab['url_token']);
+    //curl_setopt($tuCurl, CURLOPT_PORT , 443);
     curl_setopt($tuCurl, CURLOPT_VERBOSE, TRUE);
+    //curl_setopt($tuCurl, CURLOPT_HEADER, TRUE);
+    //curl_setopt($tuCurl, CURLOPT_SSLVERSION, 3);
+    //curl_setopt($tuCurl, CURLOPT_POST, TRUE);
+    //curl_setopt($tuCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
     curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, TRUE);
     
     $data="username=".$paramEtab['login_api']."&password=".$paramEtab['mdp_api']."&token=true";
+    //$data="username=".$auth['login']."&password=".$auth['mdp'];
     curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $data);
+    //curl_setopt($tuCurl, CURLOPT_HTTPHEADER, array("Content-Type : application/x-www-form-urlencoded", "Content-length: ".strlen($data)));
     
     
     $tuData = curl_exec($tuCurl);
@@ -163,8 +239,10 @@ static function AppelAPIRecupReferentielMajInfos ($pNomenclature, $paramEtab, $p
         case 'Periode':
             
             $tab=json_decode($pJson,true);
+            //print_r($tab);
             
             $url = $paramEtab['url_api_mof'].$pCheminRelatif;
+            //echo 'URL : '.$url.'<br>';
             curl_setopt($tuCurl, CURLOPT_URL, $url);
             curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
             curl_setopt($tuCurl, CURLOPT_POST, TRUE);
@@ -193,12 +271,20 @@ static function AppelAPIRecupReferentielMajInfos ($pNomenclature, $paramEtab, $p
             
             
             $tab=json_decode($pJson['json'],true);
+            echo 'Json transforme<bR>';
+            print_r($tab);
+            
+            //$url = $paramEtab['url_api_ref'].$pCheminRelatif.'/'.$tab["code"].'/'.$tab["version"].'/valider';
             
             $url = $paramEtab['url_api_ref'].$pCheminRelatif.'/'.$pJson["codeEnfant"].'/associerParent';
+            ///structures/codePegase/codeEnfant/associerParent
+            echo '<br>URL : '.$url.'<br>';
             
             $pJson=$pJson['json'];
+            //echo 'json put : '.$pJson.'<br>';
             curl_setopt($tuCurl, CURLOPT_URL, $url);
             curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson );
+            //curl_setopt($tuCurl, CURLOPT_POSTFIELDS, http_build_query( $pJson ) );
             curl_setopt($tuCurl, CURLOPT_CUSTOMREQUEST, "PUT");
             
             break;
@@ -210,6 +296,10 @@ static function AppelAPIRecupReferentielMajInfos ($pNomenclature, $paramEtab, $p
             curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
             curl_setopt($tuCurl, CURLOPT_POST, TRUE);
             
+            //echo 'StructureUAI :Prepration url api <br>';
+            //print_r($pJson);
+            
+            
             break;
         
         echo 'URL : '.$url.'<br>';
@@ -217,10 +307,24 @@ static function AppelAPIRecupReferentielMajInfos ($pNomenclature, $paramEtab, $p
     }
                             
     
+    //bab- curl_setopt($tuCurl, CURLOPT_URL, $paramEtab['url_api_ref'].$pCheminRelatif);
+    
+    
+    //curl_setopt($tuCurl, CURLOPT_PORT , 443);[
     curl_setopt($tuCurl, CURLOPT_VERBOSE, TRUE);
+    
+    //curl_setopt($tuCurl, CURLOPT_SSLVERSION, 3);
+    
+    
+    
+    //curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
     
     curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, TRUE);
     
+    //curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $data);
+    //curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $auth);
+    
+    //curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);  
     $token="Authorization: Bearer ".trim($pToken);
     $auth=$paramEtab['login_api'].":".$paramEtab['mdp_api'];
     curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);
@@ -230,6 +334,9 @@ static function AppelAPIRecupReferentielMajInfos ($pNomenclature, $paramEtab, $p
 
 
     $tuData = curl_exec($tuCurl);
+    //echo 'affichage du message retour<br><pre>';
+    //var_dump($tuData);
+    //echo '</pre>';
     
     
     $posMessage=stripos($tuData,'"message"' );
@@ -256,6 +363,7 @@ static function AppelAPIRecupReferentielMajInfos ($pNomenclature, $paramEtab, $p
     }
 
     curl_close($tuCurl);
+    //var_dump($tuData);
                 
     return $tuData;
 
@@ -309,16 +417,30 @@ static function AppelAPIRecupReferentielRecupInfos ($pNomenclature, $paramEtab, 
         
     }
                         
+    //echo 'Chemin API : '.$paramEtab['url_api_cof'].$pCheminRelatif.'<br>';
+    
+    
+    //curl_setopt($tuCurl, CURLOPT_URL, $paramEtab['url_api_ref'].$pCheminRelatif);
+    
+    //curl_setopt($tuCurl, CURLOPT_PORT , 443);
     curl_setopt($tuCurl, CURLOPT_VERBOSE, TRUE);
+    //curl_setopt($tuCurl, CURLOPT_HEADER, TRUE);
+    //curl_setopt($tuCurl, CURLOPT_SSLVERSION, 3);
+    //curl_setopt($tuCurl, CURLOPT_POST, TRUE);
+    //curl_setopt($tuCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
     curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, TRUE);
 
 
     $tuData = curl_exec($tuCurl);
+    //echo 'status<br>';
+    //$status = curl_getinfo($tuCurl,CURLINFO_HTTP_CODE);
+    //print_r($status);
 
     if(!curl_errno($tuCurl)){
 
       $info = curl_getinfo($tuCurl);
 
+      //echo 'Took ' . $info['total_time'] . ' seconds to send a request to ' . $info['url'];
 
     } else {
 
@@ -332,6 +454,10 @@ static function AppelAPIRecupReferentielRecupInfos ($pNomenclature, $paramEtab, 
 
     curl_close($tuCurl);
     
+    //echo '<br>Recuperation des formations apres appel API<br>';
+    //var_dump($tuData);
+    //echo '<br><br>';
+    
     return $tuData;
 
 }
@@ -343,8 +469,18 @@ static function AppelAPIRecupReferentielRecupInfos ($pNomenclature, $paramEtab, 
 	function connect_postgres($paramEtab)
 	{
 
+		//include './constantes.php';
+                //$paramEtab=$tabParamEtab[$pEtabEncours][$pEnv];
+                //$paramEtab=$this->rechercheParamEtablissements($pEtabEncours, $pEnv);
+                //echo '<pre>';
+                //var_dump($paramEtab[$pEnv]);
+                //echo '</pre>';
+                //echo 'instance postgres '.$paramEtab[$pEnv]['instance'].'<br>';
      
                 $chaineConnexion="host=".$paramEtab['host_bd']." port=".$paramEtab['port_bd']." dbname=".$paramEtab['instance']." user=".$paramEtab['login_bd']." password=".$paramEtab['mdp_bd'];
+                //echo 'Chaine de connexion '.$chaineConnexion.'<br>';
+            
+                //if ( $connpg=pg_connect("host=pegase-sgbd-preprod.grenet.fr port=5432 dbname=tspgsisav user=usr_pgs_adm_write password=usr_pgs_adm_write") )
                 if ( $connpg=pg_connect($chaineConnexion) )
                         return $connpg;
                     else {
@@ -352,6 +488,7 @@ static function AppelAPIRecupReferentielRecupInfos ($pNomenclature, $paramEtab, 
                          print_r($err);
                     }
 		
+	        //print_r($connpg);
 		return $connpg;
 
 	}
