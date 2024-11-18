@@ -49,7 +49,7 @@ class StructureUAI {
     var $respDateDebutValidite='';
     var $respDateFinValidite='';
     var $parent='';
-    var $estStructureMere='';
+    var $estStructureMere=false;
     
     
     
@@ -87,7 +87,8 @@ class StructureUAI {
      $this->respPrenom='';                                   
      $this->respTitre='';                                    
      $this->respDateDebutValidite='';                        
-     $this->respDateFinValidite='';     
+     $this->respDateFinValidite='';    
+     $this->estStructureMere=false; 
      $this->parent=''; 
     }
 
@@ -112,7 +113,15 @@ function insertStructureDansBD ($pConnBd, $pTabRef)
 {
     
     
-
+        //$pNomenclature='BourseAideFinanciere';
+        
+        //echo 'MajRefNomenclatureGeneriqueDansPegase<br>'
+        //    . 'Recuperation des referentiels inscrits dans la base de données<br>'
+        //    . 'Pour '.$pNomenclature.'<br>';
+       
+        
+        //echo '<br>Tableau de données<br>';
+        //print_r($pTabRef);
         $i=0;
         while ($i<count($pTabRef)) {
 
@@ -314,8 +323,7 @@ function insertStructureDansBD ($pConnBd, $pTabRef)
              if ( isset($pTabRef[$i]["estStructureMere"]))
                 $this->estStructureMere = ChaineCaracteres::formatBooleanVersBD($pTabRef[$i]["estStructureMere"]);    
              else $this->estStructureMere=false;
-
-                
+            
                 
             $req='INSERT INTO local_rdd.rdd_ref_structure(
             code, "codeReferentielExterne", "codeUAI", "denominationPrincipale", "appellationOfficielle", commentaire, "dateDebutValidite", 
@@ -411,10 +419,16 @@ function selectStructureUAIDansBD ($connexion)
 {
     
 
-        //echo 'entrer dans selectRefNomenclatureGenerique<br>';
+        //echo 'entrer dans selectStructureUAIDansBD<br>';
         $req='SELECT *
-                FROM local_rdd.rdd_ref_structure'            ;
-        
+                FROM local_rdd.rdd_ref_structure '            ;
+//$etab_pp='ETAB00';
+
+//        $req='SELECT *
+//                FROM local_rdd.rdd_ref_structure where parent =\''.$etab_pp.'\''.' order by parent desc '            ;
+                                           
+
+       
         //echo'req '.$req.'<br>';
 
         
@@ -428,7 +442,11 @@ function selectStructureUAIDansBD ($connexion)
             $tabRef[$j]=$data;
             $j++;
       }
-
+      
+      //echo '<br>';
+      //print_r($tabRef);
+      //echo '<br>';
+                
       return $tabRef;
 
 }
@@ -436,7 +454,7 @@ function selectStructureUAIDansBD ($connexion)
 
     function formatStructure ($bdRef) {
     
-        //echo 'Entrer dans formatRefCategorieSocioPro '.count($bdRef).'<br>';
+        //echo 'Entrer dans formatStructure '.count($bdRef).'<br>';
         $i=0;
         $selectionInfosBD=Array();
         while ($i<count($bdRef)) {
@@ -451,7 +469,7 @@ function selectStructureUAIDansBD ($connexion)
                 $selectionInfosBD[$i]['codeUai']=$bdRef[$i]['codeUAI'];
                 $selectionInfosBD[$i]['denominationPrincipale']=$bdRef[$i]['denominationPrincipale'];
                 $selectionInfosBD[$i]['denominationComplementaire']=$bdRef[$i]['denominationComplementaire'];
-                $selectionInfosBD[$i]['appellationOfficielle']=intval($bdRef[$i]['appellationOfficielle']);
+                $selectionInfosBD[$i]['appellationOfficielle']=$bdRef[$i]['appellationOfficielle'];
                 $selectionInfosBD[$i]['commentaire']=$bdRef[$i]['commentaire'];
                 $selectionInfosBD[$i]['dateDebutValidite']=$bdRef[$i]['dateDebutValidite'];
                 $selectionInfosBD[$i]['dateFinValidite']= ReferentielPegase::formatDateFinValiditeVersPegase($bdRef[$i]['dateFinValidite']);
@@ -512,7 +530,8 @@ function selectStructureUAIDansBD ($connexion)
                 $selectionInfosBD[$i]['responsable']['dateFinValidite']=$bdRef[$i]['respDateFinValidite'];
                 
                 $selectionInfosBD[$i]['parent']=$bdRef[$i]['parent'];
-                $selectionInfosBD[$i]['estStructureMere']=$bdRef[$i]['estStructureMere'];
+                $selectionInfosBD[$i]['estStructureMere']=ChaineCaracteres::formatBooleanVersAPI($bdRef[$i]['estStructureMere']);
+
             
             }        else {
                 
@@ -535,7 +554,7 @@ function selectStructureUAIDansBD ($connexion)
                 $selectionInfosBD[$i]['responsable']['dateFinValidite']=$bdRef[$i]['respDateFinValidite'];
 
                 $selectionInfosBD[$i]['parent']=$bdRef[$i]['parent'];
-                $selectionInfosBD[$i]['estStructureMere']=$bdRef[$i]['estStructureMere'];
+                $selectionInfosBD[$i]['estStructureMere']=ChaineCaracteres::formatBooleanVersAPI($bdRef[$i]['estStructureMere']);
                 
             }
             
@@ -558,8 +577,12 @@ function selectStructureUAIDansBD ($connexion)
 
             //echo '<br>====> UAI :'.$bdRef[$i]['codeUAI'].'<br>';
             
+            //avant
             $selectionInfosBD[$i]['codeEnfant']=$bdRef[$i]['code'];
             $selectionInfosBD[$i]['code']=$bdRef[$i]['parent'];
+            
+    
+            
             
             //echo 'Sortie formatage tableau avant json UAI : '.$selectionInfosBD[$i]['codeUai'].'<br>';
             $i++;
@@ -578,16 +601,19 @@ function formatJsonPourAppelAPIPegase($selectionInfosBD, $actionMaj, $paramsEtab
         while ($i<count($selectionInfosBD)) {
            
             $jsonRef = json_encode($selectionInfosBD[$i]);
-
+            //echo '<pre>';
+            //print_r($jsonRef);
+            //echo '</pre><br>';
+            echo '<br><br>===> UAI '.$selectionInfosBD[$i]['codeUai'].'<br>';
             if (!empty($selectionInfosBD[$i]['codeUai']) and $selectionInfosBD[$i]['codeUai']<>"") {
                 //echo '<br><br>Avec UAI<br><br>';
                 $resultat= BaseDeDonnees::AppelAPIRecupReferentielMajInfos( $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatifAvecUAI, $jsonRef);
             } else {
-                //echo '<br><br>Sans UAI<br><br>';
+                echo '<br><br>Sans UAI : '.$selectionInfosBD[$i]['code'].'<br><br>';
                 $resultat= BaseDeDonnees::AppelAPIRecupReferentielMajInfos( $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatifSansUAI, $jsonRef);
             }
             
-            //echo 'resultat : '.print_r($resultat).'<br>';
+            echo '====> resultat : '.print_r($resultat).'<br>';
 
             $i++;
             }
@@ -612,9 +638,17 @@ function formatJsonHierarchiePourAppelAPIPegase($selectionInfosBD, $actionMaj, $
             $selectionParamPost['code']=$selectionInfosBD[$i]['code'];
             //print_r($selectionParamPost);
             $jsonRef = json_encode($selectionParamPost);
-
+            //echo '<pre>';
+            //print_r($jsonRef);
+            //Mettre dans le tableau la traduction json et passer tout le tableau : Faire ensuite les distinction
+            //echo '</pre><br>';
             $selectionInfosBD[$i]['json']=$jsonRef;
-
+            //print_r($selectionParamPost);
+            //echo 'Parametre transmis <br>';
+            //print_r($selectionInfosBD[$i]);
+            
+            //echo '<br><br>===> UAI '.$selectionInfosBD[$i]['codeUai'].'<br>';
+                //echo '<br><br>Sans UAI<br><br>';
             $resultat= BaseDeDonnees::AppelAPIRecupReferentielMajInfos( $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif, $selectionInfosBD[$i]);
             
             //echo 'resultat : '.print_r($resultat).'<br>';
