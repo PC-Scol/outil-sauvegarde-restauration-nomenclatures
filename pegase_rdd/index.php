@@ -115,7 +115,7 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
             </li>
             <li>Niveau Diplome</li>
             <li>Pays Nationalite : Mettre la priorité d'affichage</li>
-            <li>Période de mise en oeuvre</li>
+         
             <li>Profil Exonerant = Profil Specificite</li>
             <li>Regime Inscription</li>
             <li>Serie Bac
@@ -154,7 +154,7 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
             
         <table width='100%' border='1'>
             <tr>
-                <th align='center' >Etablissement en cours</th> <th>Environnement  </th> <th> Recuperation des référentiels Pegase </th> <th align='center'>Mise à jour des référentiels Pegase</th>
+                <th align='center' >Etablissement en cours</th> <th>Environnement  </th> <th> Pegase => Base local etablissement (pegase-sgbd-preprod)</th> <th align='center'>Base local etablissement (pegase-sgbd-preprod) => Pegase</th>
             </tr>
             
             <tr>
@@ -201,7 +201,7 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                 <option  value="MentionDiplome"><?php print 'Mention Diplome' ?></option>
                 <option  value="NiveauDiplome"><?php print 'Niveau Diplome' ?></option>
                 <option  value="PaysNationalite"><?php print 'Pays Nationalité' ?></option>
-                <option  value="Periode"><?php print 'Periode de mise en oeuvre' ?></option>
+               
                 <option  value="ProfilExonerant"><?php print 'Profil Exonerant' ?></option>
                 <option  value="QuotiteActivite"><?php print 'Quotité Activité' ?></option>
                 <option  value="RegimeInscription"><?php print 'Régime Inscription' ?></option>
@@ -234,7 +234,7 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                 <option  value="MentionDiplome"><?php print 'Mention Diplome' ?></option>
                 <option  value="NiveauDiplome"><?php print 'Niveau Diplome' ?></option>
                 <option  value="PaysNationalite"><?php print 'Pays Nationalité' ?></option>
-                <option  value="Periode"><?php print 'Periode de mise en oeuvre' ?></option>
+               
                 <option  value="ProfilExonerant"><?php print 'Profil Exonerant' ?></option>
                 <option  value="QuotiteActivite"><?php print 'Quotité Activité' ?></option>
                 <option  value="RegimeInscription"><?php print 'Régime Inscription' ?></option>
@@ -599,9 +599,12 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                         $bdStructure=$refStructure->selectStructureUAIDansBD($client);
                         //echo 'recuperation de la BD <br>';
                         //print_r($bdStructure);
+                        //echo '<br>';
                         $selectionStructureResultat=$refStructure->formatStructure($bdStructure);
-                        //echo 'transformation de la BD <br>';
+                                                
+                        //echo 'transformation de la BD : selectionStructureResultat <br>';
                         //print_r($selectionStructureResultat);
+                        //echo '<br>';
                         //echo '<br>Token <br>';
                         //echo $token.'<br>';
                         $resultatAppelAPI=$refStructure->formatJsonPourAppelAPIPegase($selectionStructureResultat, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj']['sans_uai'], $cheminRelatif[1]['chemin_maj']['avec_uai'] );
@@ -615,9 +618,9 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                         //echo 'recuperation de la BD <br>';
                         //print_r($bdStructure);
                         $selectionStructureResultat=$refStructure->formatHierarchieStructure($bdStructure);
-                        echo 'transformation de la BD <br>';
+                        echo 'transformation de la BD <br><pre>';
                         print_r($selectionStructureResultat);
-                        echo '<br>';
+                        echo '<br></pre>';
                         //echo $token.'<br>';
                         
                         $resultatAppelAPI=$refStructure->formatJsonHierarchiePourAppelAPIPegase($selectionStructureResultat, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj']);
@@ -652,13 +655,13 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                         
                         break;
 
-                    case 'Periode' :
-                        echo '<br>=====> Traitement Periode de mise en oeuvre '.$cheminRelatif[1]['type_nomenclature'].'<br>';
-                        $bdRef=$refPeriode->selectPeriodeDansBD($client);
-                        $selectionPeriode=$refPeriode->formatPeriodeMiseEnOeuvre($bdRef);
-                        $resultatAppelAPI=$refPeriode->formatJsonPourAppelAPIPegase($selectionPeriode, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                    //case 'Periode' :
+                    //    echo '<br>=====> Traitement Periode de mise en oeuvre '.$cheminRelatif[1]['type_nomenclature'].'<br>';
+                    //    $bdRef=$refPeriode->selectPeriodeDansBD($client);
+                    //    $selectionPeriode=$refPeriode->formatPeriodeMiseEnOeuvre($bdRef);
+                    //    $resultatAppelAPI=$refPeriode->formatJsonPourAppelAPIPegase($selectionPeriode, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
 
-                        break;
+                    //    break;
 
                     }
 
