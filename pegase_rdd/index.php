@@ -39,12 +39,6 @@ include 'initVariables.php';
         <form method="post" action="index.php" name="formGestionReferentielPegase">
             
             
-            
-            <?php
-            //echo '$_SERVER[REMOTE_ADDR]'.$_SERVER['REMOTE_ADDR'].' => '.gethostbyaddr($_SERVER['REMOTE_ADDR']).'<br>';
-            if (strpos(gethostbyaddr($_SERVER['REMOTE_ADDR']),'grenet')) {
-            
-            ?>
             <br><br><br><br><br>
             Sélectionner l'etablissement sur lequel on travaille :
             <table width='100%'>
@@ -56,22 +50,7 @@ include 'initVariables.php';
                     
                 </tr>
             </table>
-            <?php 
-            }
-            else {
-                
-                ?>
-            <table width='100%'>
-                <tr>
-                   <td>            <a href='index.php?etabEncours=uga' ><img src='images/logoGrenobleAlpes.png'  height="50"/>   </a>    </td>
-                </tr>
-            </table>
-
-            <?php
-                
-            }
-            ?>
-            
+           
     <?php 
         
 
