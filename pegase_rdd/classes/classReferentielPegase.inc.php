@@ -352,13 +352,12 @@ function deleteRefNomenclatureGeneriqueDansPegase ($pNomenclature,$pConnBd)
     $req='delete FROM local_rdd.rdd_ref_nomenclature_generique
                 WHERE  local_rdd.rdd_ref_nomenclature_generique."typeNomenclature"=\''.$pNomenclature.'\'';
         
-
-        
-        //echo "requete ".$req."<br>";
-        $findResult = pg_query($pConnBd,$req);
-        $numrows    = pg_num_rows($findResult);
-                        
-      return $numrows;
+	$numrows = 0;
+	//echo "requete ".$req."<br>";
+	$findResult = pg_query($pConnBd,$req);
+	if (!$findResult) echo pg_last_error(); else $numrows = pg_num_rows($findResult);
+	
+	return $numrows;
     
 }
 
@@ -379,7 +378,7 @@ function insertRefNomenclatureGeneriqueDansBd ($pNomenclature,$pConnBd, $pTabRef
         $j=0;
         $k=0;
         $booDomaineFormation=true;
-        $booCategorieSocioPro=true;        
+        $booCategorieSocioPro=true;
         $booBoucle=false;
         $i=0;
         while ($i<count($pTabRef)) {

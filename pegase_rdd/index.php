@@ -24,7 +24,9 @@ include 'initVariables.php';
     <body>
         
     <center>
-        <img src="images/pegase.png" />
+            <img src='images/logoGrenobleAlpes.png' height='125'/>
+            <br>
+            <img src="images/pegase.png" />
         
         <p>
             <b>
@@ -58,18 +60,6 @@ include 'initVariables.php';
             </table>
             <?php 
             }
-            else {
-                
-                ?>
-            <table width='100%'>
-                <tr>
-                   <td>            <a href='index.php?etabEncours=uga' ><img src='images/logoGrenobleAlpes.png'  height="50"/>   </a>    </td>
-                </tr>
-            </table>
-
-            <?php
-                
-            }
             ?>
             
     <?php 
@@ -79,7 +69,7 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
     {$etabEncours = ( isset($_POST['etabEncours']) ) ? $_POST['etabEncours'] : $_GET['etabEncours'];}
 
     else
-    {	$etabEncours= '';   }
+    {	$etabEncours= 'pcscol';   }
 
     
     ?>
@@ -150,14 +140,31 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
             
         <input type="hidden" name="etabEncours" value="<?php print $etabEncours ?>" >    
         <input type="hidden" name="token" value="<?php print $token ?>" >    
-        <!-- <input type="hidden" name="environnement" value="<?php print $environnement ?>" >    -->
+		<input type="hidden" name="environnement" value="<?php print $environnement ?>" >
             
         <table width='100%' border='1'>
             <tr>
-                <th align='center' >Etablissement en cours</th> <th>Environnement  </th> <th> Pegase => Base local etablissement (pegase-sgbd-preprod)</th> <th align='center'>Base local etablissement (pegase-sgbd-preprod) => Pegase</th>
+                <?php 
+                if ( $etabEncours ==  "usmb"
+                    or $etabEncours ==  "uga"
+                    or $etabEncours ==  "inp"
+                    or $etabEncours ==  "iep") {
+                ?>
+                <th align='center' >Etablissement en cours</th>
+                <?php 
+                }
+                ?>
+                <th>Environnement  </th> <th> Pegase => Base locale de sauvegarde </th>
+                <th align='center'>Base locale de sauvegarde => Pegase</th>
             </tr>
             
             <tr>
+            <?php 
+                if ( $etabEncours ==  "usmb"
+                    or $etabEncours ==  "uga"
+                    or $etabEncours ==  "inp"
+                    or $etabEncours ==  "iep") {
+                ?>
                 <td width='20%'>
                 <?php
                     switch ($etabEncours) {
@@ -173,86 +180,84 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                     case 'iep':
                         print_r("<img src='images/logoSciencesPo.png' height='100'/>");
                         break;
-                }                    
-                ?>    
-                </td>              
+                    }
+                ?>
+                </td>
+                
+                <?php
+                }
+                ?>
                 
                 <td  width='10%'> 
-                    
-                <select onchange="document.formGestionReferentielPegase.action='index.php';document.formGestionReferentielPegase.submit();" name="environnement">
-		<option selected value="<?php print $environnement ?>"><?php print $environnement ?></option>
-                <option  value="rdd"><?php print 'RDD' ?></option>
-                <option  value="test"><?php print 'Test' ?></option>
-                <option  value="pilote"><?php print 'Pilote' ?></option>
-                <!--<option  value="prod"><?php print 'Prod' ?></option>-->
-		</select>                
+                    <select onchange="document.formGestionReferentielPegase.action='index.php';document.formGestionReferentielPegase.submit();" name="environnement">
+                    <option selected value="<?php print $environnement ?>"><?php print $environnement ?></option>
+                    <option  value="rdd"><?php print 'RDD' ?></option>
+                    <option  value="test"><?php print 'Test' ?></option>
+                    <option  value="pilote"><?php print 'Pilote' ?></option>
+                    <!--<option  value="prod"><?php print 'Prod' ?></option>-->
+                </select>
                 
                 </td>
                 
-                
-                
-                
                 <td  width='30%'>Action : 
-                <select onchange="document.formGestionReferentielPegase.action='index.php';document.formGestionReferentielPegase.submit();" name="actionRecup">
-		<option selected value="<?php print $actionRecup ?>"><?php print $actionRecup ?></option>
-                <option  value=""></option>
-                <option  value="BourseAideFinanciere"><?php print 'Bourses et Aides Financieres' ?></option>
-                <option  value="CategorieSocioPro"><?php print 'Catégorie socio professionnelle' ?></option>
-                <option  value="MentionDiplome"><?php print 'Mention Diplome' ?></option>
-                <option  value="NiveauDiplome"><?php print 'Niveau Diplome' ?></option>
-                <option  value="PaysNationalite"><?php print 'Pays Nationalité' ?></option>
-               
-                <option  value="ProfilExonerant"><?php print 'Profil Exonerant' ?></option>
-                <option  value="QuotiteActivite"><?php print 'Quotité Activité' ?></option>
-                <option  value="RegimeInscription"><?php print 'Régime Inscription' ?></option>
-                <option  value="SerieBac"><?php print 'Série Bac' ?></option>
-                <option  value="SituationMilitaire"><?php print 'Situation Militaire' ?></option>
-                <option  value="SpecialitesBacGeneral"><?php print 'Specialites Bac General' ?></option>
-                <option  value="TypeDernierDiplomeObtenu"><?php print 'Type Dernier Diplome Obtenu' ?></option>
-                <option  value="TypeDiplome"><?php print 'TypeDiplome' ?></option>
-                <option  value="TypeFormation"><?php print 'TypeFormation' ?></option>
-                <option  value="TypeObjetFormation"><?php print 'Type Objet Formation' ?></option>
-                <option  value="TypeResultat"><?php print 'Type Resultat' ?></option>
-                <option  ><?php print '========================================' ?></option>
-                <option  value="StructureUAI"><?php print 'Structure UAI' ?></option>
-                <option  value="Formation"><?php print 'Formation pour validation' ?></option>
-		</select>   
+                    <select onchange="document.formGestionReferentielPegase.action='index.php';document.formGestionReferentielPegase.submit();" name="actionRecup">
+                    <option selected value="<?php print $actionRecup ?>"><?php print $actionRecup ?></option>
+                    <option  value=""></option>
+                    <option  value="BourseAideFinanciere"><?php print 'Bourses et Aides Financieres' ?></option>
+                    <option  value="CategorieSocioPro"><?php print 'Catégorie socio professionnelle' ?></option>
+                    <option  value="MentionDiplome"><?php print 'Mention Diplome' ?></option>
+                    <option  value="NiveauDiplome"><?php print 'Niveau Diplome' ?></option>
+                    <option  value="PaysNationalite"><?php print 'Pays Nationalité' ?></option>
+                    <option  value="ProfilExonerant"><?php print 'Profil Exonerant' ?></option>
+                    <option  value="QuotiteActivite"><?php print 'Quotité Activité' ?></option>
+                    <option  value="RegimeInscription"><?php print 'Régime Inscription' ?></option>
+                    <option  value="SerieBac"><?php print 'Série Bac' ?></option>
+                    <option  value="SituationMilitaire"><?php print 'Situation Militaire' ?></option>
+                    <option  value="SpecialitesBacGeneral"><?php print 'Specialites Bac General' ?></option>
+                    <option  value="TypeDernierDiplomeObtenu"><?php print 'Type Dernier Diplome Obtenu' ?></option>
+                    <option  value="TypeDiplome"><?php print 'TypeDiplome' ?></option>
+                    <option  value="TypeFormation"><?php print 'TypeFormation' ?></option>
+                    <option  value="TypeObjetFormation"><?php print 'Type Objet Formation' ?></option>
+                    <option  value="TypeResultat"><?php print 'Type Resultat' ?></option>
+                    <option  ><?php print '========================================' ?></option>
+                    <option  value="StructureUAI"><?php print 'Structure UAI' ?></option>
+                    <option  value="Formation"><?php print 'Formation pour validation' ?></option>
+                    </select>
                     <br>
                     <span style="background: red; color: white">Recuperation des référentiel de pegase vers la BD 
                     La récuperation des référentiels doit etre faite lorsque cela est necessaire, les données récupérée etant 
                     ensuite reinjecter dans pegase. Donc cette fonctionnalité est utilisé lorsqu' un reférentiel a été modifié manuellement
-                    dans pegase, afin que les utilisateurs n'est pas à les resaisir lors de l'initialisation de l'instance Pegase.
+                    dans pegase, afin que les utilisateurs n'aient pas à les resaisir lors de l'initialisation de l'instance Pegase.
                     </span>
                 </td>
-               
+                
                 <td  width='30%'> Action : Mise à jour des référentiel de pegase à partir de la BD
                 <select onchange="document.formGestionReferentielPegase.action='index.php';document.formGestionReferentielPegase.submit();" name="actionMaj">
-		<option selected value="<?php print $actionMaj ?>"><?php print $actionMaj ?></option>
-                <option  value=""><?php print '' ?></option>
-                <option  value="BourseAideFinanciere"><?php print 'Bourses et Aides Financieres' ?></option>
-                <option  value="CategorieSocioPro"><?php print 'Catégorie socio professionnelle' ?></option>
-                <option  value="MentionDiplome"><?php print 'Mention Diplome' ?></option>
-                <option  value="NiveauDiplome"><?php print 'Niveau Diplome' ?></option>
-                <option  value="PaysNationalite"><?php print 'Pays Nationalité' ?></option>
-               
-                <option  value="ProfilExonerant"><?php print 'Profil Exonerant' ?></option>
-                <option  value="QuotiteActivite"><?php print 'Quotité Activité' ?></option>
-                <option  value="RegimeInscription"><?php print 'Régime Inscription' ?></option>
-                <option  value="SerieBac"><?php print 'Série Bac' ?></option>
-                <option  value="SituationMilitaire"><?php print 'Situation Militaire' ?></option>
-                <option  value="SpecialitesBacGeneral"><?php print 'Specialites Bac General' ?></option>
-                <option  value="TypeDernierDiplomeObtenu"><?php print 'Type Dernier Diplome Obtenu' ?></option>
-                <option  value="TypeDiplome"><?php print 'Type de Diplome' ?></option>
-                <option  value="TypeFormation"><?php print 'Type de Formation' ?></option>
-                <option  value="TypeObjetFormation"><?php print 'Type Objet Formation' ?></option>
-                <option  value="TypeResultat"><?php print 'Type Resultat' ?></option>
-                <option  ><?php print '======================' ?></option>                
-                <option  value="StructureUAI"><?php print 'Structure UAI' ?></option>                
-                <option  value="AssocierParentStructureUAI"><?php print 'Hierarchie Structure Organisationnelle' ?></option>                
-                <option  value="Formation"><?php print 'Formation pour validation' ?></option>
-                <option  ><?php print '======================' ?></option>                
-                <option  value="InjectionSpecialiteBac"><?php print 'Injection de la nomenclature specialité Bac dans pegase' ?></option>
-		</select>                
+                    <option selected value="<?php print $actionMaj ?>"><?php print $actionMaj ?></option>
+                    <option  value=""><?php print '' ?></option>
+                    <option  value="BourseAideFinanciere"><?php print 'Bourses et Aides Financieres' ?></option>
+                    <option  value="CategorieSocioPro"><?php print 'Catégorie socio professionnelle' ?></option>
+                    <option  value="MentionDiplome"><?php print 'Mention Diplome' ?></option>
+                    <option  value="NiveauDiplome"><?php print 'Niveau Diplome' ?></option>
+                    <option  value="PaysNationalite"><?php print 'Pays Nationalité' ?></option>
+                    <option  value="ProfilExonerant"><?php print 'Profil Exonerant' ?></option>
+                    <option  value="QuotiteActivite"><?php print 'Quotité Activité' ?></option>
+                    <option  value="RegimeInscription"><?php print 'Régime Inscription' ?></option>
+                    <option  value="SerieBac"><?php print 'Série Bac' ?></option>
+                    <option  value="SituationMilitaire"><?php print 'Situation Militaire' ?></option>
+                    <option  value="SpecialitesBacGeneral"><?php print 'Specialites Bac General' ?></option>
+                    <option  value="TypeDernierDiplomeObtenu"><?php print 'Type Dernier Diplome Obtenu' ?></option>
+                    <option  value="TypeDiplome"><?php print 'Type de Diplome' ?></option>
+                    <option  value="TypeFormation"><?php print 'Type de Formation' ?></option>
+                    <option  value="TypeObjetFormation"><?php print 'Type Objet Formation' ?></option>
+                    <option  value="TypeResultat"><?php print 'Type Resultat' ?></option>
+                    <option  ><?php print '======================' ?></option>
+                    <option  value="StructureUAI"><?php print 'Structure UAI' ?></option>
+                    <option  value="AssocierParentStructureUAI"><?php print 'Hierarchie Structure Organisationnelle' ?></option>
+                    <option  value="Formation"><?php print 'Formation pour validation' ?></option>
+                    <option  ><?php print '======================' ?></option>
+                    <option  value="InjectionSpecialiteBac"><?php print 'Injection de la nomenclature specialité Bac dans pegase' ?></option>
+                </select>
                 
                 </td>
                 
@@ -270,22 +275,26 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
         
 
         echo '=======================================================================<br>';
-        echo 'Etablissement : '.$etabEncours.' Action Recup : '.$actionRecup.' / Maj : '.$actionMaj.'<br>';
+        echo 'Etablissement : '.$etabEncours.'/'.$environnement.' Action Recup : '.$actionRecup.' / Maj : '.$actionMaj.'<br>';
         echo '=======================================================================<br>';
         
         if (isset($etabEncours) and !empty($etabEncours) and isset ($environnement) and !empty($environnement)) {
-            
             $conn=new BaseDeDonnees();
-            
             $client=$conn->connect_postgres($tabParamEtab[$etabEncours][$environnement]);
-
+            if (!$client) {
+                echo '<BR>====> Connexion à la base locale de travail impossible : tous les paramètres n\'ont pas été sélectionnés ou des paramétrages de l\'outil sont manquants';
+                echo pg_last_error();
+            } else {
+                echo '<BR>====> Connexion à la base locale de travail OK';
+            }
             // Recherche du token
             $token=$conn->recuperationTokenAPIPegase($tabParamEtab[$etabEncours][$environnement]);
-            echo '<br>Token <pre>';
-            print_r($token);
-            echo '</pre>';
             
-       
+            if (!$token){
+                echo '<BR>====> Récupération token non effectuée : tous les paramètres n\'ont pas été sélectionnés, des paramétrages de l\'outil sont manquants ou aucune action n\'a été demandée';
+            } else {
+                echo '<BR>====> Token '.$token;
+            }
             
             $paramsEtab=$tabParamEtab[$etabEncours][$environnement];
             $choixflux='0';
@@ -299,7 +308,7 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
             
             if (isset($actionRecup) and !empty($actionRecup)) {
                 
-                echo '===================== DEBUT DE TRAITEMENT DE RECUPERATION ===============<br>';
+                echo '<BR><BR><BR>===================== DEBUT DE TRAITEMENT DE RECUPERATION ===============<br>';
                 
                 $actionMaj="";
                 $choixflux='1';
@@ -414,14 +423,12 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                     $x++;
                 }
                 
-                echo '===================== FIN DE TRAITEMENT DE RECUPERATION ===============<br>';
+                echo '<BR>===================== FIN DE TRAITEMENT DE RECUPERATION ===============';
             }
-        
-            
             
             if (isset($actionMaj)  and !empty($actionMaj)) {
-
-                echo '===================== DEBUT DE TRAITEMENT DE MAJ ===============<br>';
+                
+                echo '<BR><BR><BR>===================== DEBUT DE TRAITEMENT DE MAJ ===============';
                 
                 $actionRecup='';
                 $choixflux='2';
@@ -437,160 +444,247 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                         echo '<br>=====> Traitement Bourse et aide financiere '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionInfosBD=$refGen->formatRefBourseAideFinancieres($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionInfosBD, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
+                        if (empty($selectionInfosBD)) {
+                            echo 'Aucune bourse ou aide financière sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionInfosBD, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
                         break;
-                    case 'CategorieSocioPro' :
 
+                    case 'CategorieSocioPro' :
                         echo '<br>=====> Traitement Categorie Socio Professionelle 8 '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[2]['type_nomenclature'],$client);
                         $selectionCatSocPro8=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionCatSocPro8, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[2]['chemin_maj'] );
-
+                        if (empty($selectionCatSocPro8)) {
+                            echo 'Aucune catégorie socio professionnelle8 sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionCatSocPro8, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[2]['chemin_maj'] );
+                        }
+                        
                         echo '<br>=====> Traitement Situation Emploi '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionSitEmploi=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionSitEmploi, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
+                        if (empty($selectionSitEmploi)) {
+                            echo 'Aucune situation emploi sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionSitEmploi, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
+                        
                         echo '<br>=====> Traitement Categorie Socio Professionelle '.$cheminRelatif[3]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[3]['type_nomenclature'],$client);
                         $selectionCatSocPro=$refGen->formatRefCategorieSocioPro($bdRef,$selectionSitEmploi, $selectionCatSocPro8);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionCatSocPro, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[3]['chemin_maj'] );
-
+                        if (empty($selectionCatSocPro)) {
+                            echo 'Aucune catégorie socio professionnelle sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionCatSocPro, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[3]['chemin_maj'] );
+                        }
                         break;
+
                     case 'MentionDiplome' :
                         echo '<br>=====> Traitement Domaine Formation '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionDomaineFormation=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionDomaineFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
+                        if (empty($selectionDomaineFormation)) {
+                            echo 'Aucun domaine de formation sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionDomaineFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
                         echo '<br>=====> Traitement Mention Diplome '.$cheminRelatif[2]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[2]['type_nomenclature'],$client);
                         $selectionMentionDiplome=$refGen->formatRefMentionDiplome($bdRef,$selectionDomaineFormation);
-
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionMentionDiplome, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[2]['chemin_maj'] );
+                        if (empty($selectionMentionDiplome)) {
+                            echo 'Aucune mention de diplome sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionMentionDiplome, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[2]['chemin_maj'] );
+                        }
                         break;
+
                     case 'NiveauDiplome' :
                         echo '<br>=====> Traitement Niveau Diplome '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionNiveauDiplome=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionNiveauDiplome, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
+                        if (empty($selectionNiveauDiplome)) {
+                            echo 'Aucun niveau de diplôme sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionNiveauDiplome, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
                         break;
+
                     case 'PaysNationalite' :
                         echo '<br>=====> Traitement Pays Nationalite '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionPays=$refGen->formatRefPaysNationalite($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionPays, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
+                        if (empty($selectionPays)) {
+                            echo 'Aucun pays sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionPays, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
                         break;
-
+                        
                     case 'ProfilExonerant':
                         echo '<br>=====> Traitement Profil Exonerant '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionInfosBD=$refGen->formatRefProfilExonerant($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionInfosBD, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
+                        if (empty($selectionInfosBD)) {
+                            echo 'Aucun profil exonérant sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionInfosBD, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
                         break;
-                    
+                        
                     case 'RegimeInscription' :
                         echo '<br>=====> Traitement Regime Inscription '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionRegimeInscrip=$refGen->formatRefRegimeInscription($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionRegimeInscrip, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
+                        if (empty($selectionRegimeInscrip)) {
+                            echo 'Aucun régime d\'inscription sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionRegimeInscrip, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
                         break;
+                        
                     case 'SerieBac' :
                         echo '<br>=====> Traitement Titre Acces '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionTitreAcces=$refGen->formatRefGenerique($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTitreAcces, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        if (empty($selectionTitreAcces)) {
+                            echo 'Aucun titre d\'accès sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTitreAcces, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
 
                         echo '<br>=====> Traitement Type Bac '.$cheminRelatif[2]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[2]['type_nomenclature'],$client);
                         $selectionTypeBac=$refGen->formatRefGenerique($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeBac, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[2]['chemin_maj'] );
+                        if (empty($selectionTypeBac)) {
+                            echo 'Aucun type baccalauréat sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeBac, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[2]['chemin_maj'] );
+                        }
 
                         echo '<br>=====> Serie Bac '.$cheminRelatif[3]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[3]['type_nomenclature'],$client);
                         $selectionCatSocPro=$refGen->formatRefSerieBac($bdRef,$selectionTitreAcces, $selectionTypeBac);
-
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionCatSocPro, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[3]['chemin_maj'] );
+                        if (empty($selectionCatSocPro)) {
+                            echo 'Aucune série de baccalauréat sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionCatSocPro, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[3]['chemin_maj'] );
+                        }
                         break;
+
                     case 'SituationMilitaire' :
                         echo '<br>=====> Traitement Situation Militaire '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionSituationMilitaire=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionSituationMilitaire, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
-                        break;  
-
+                        if (empty($selectionSituationMilitaire)) {
+                            echo 'Aucune situation militaire sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionSituationMilitaire, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
+                        break;
+                        
                     case 'SpecialitesBacGeneral' :
                         echo '<br>=====> Traitement Specialites Bac General '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionSpecialitesBacGeneral=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionSpecialitesBacGeneral, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
-                        break;  
-
+                        if (empty($selectionSpecialitesBacGeneral)) {
+                            echo 'Aucune spécialité bac général sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionSpecialitesBacGeneral, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
+                        break;
+                        
                     case 'TypeDernierDiplomeObtenu' :
                         echo '<br>=====> Traitement Type Dernier Diplome Obtenu '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionTypeDernierDiplomeObtenu=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeDernierDiplomeObtenu, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
-                        break;  
+                        if (empty($selectionTypeDernierDiplomeObtenu)) {
+                            echo 'Aucun type dernier diplôme obtenu sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeDernierDiplomeObtenu, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
+                        break;
 
                     case 'TypeDiplome' :
                         echo '<br>=====> Traitement Cursus Formation '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionCursusFormation=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionCursusFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        if (empty($selectionCursusFormation)) {
+                            echo 'Aucun cursus formation sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionCursusFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
 
                         echo '<br>=====> Traitement Niveau Formation '.$cheminRelatif[2]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[2]['type_nomenclature'],$client);
                         $selectionNiveauFormation=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionNiveauFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[2]['chemin_maj'] );
-
+                        if (empty($selectionNiveauFormation)) {
+                            echo 'Aucun niveau formation sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionNiveauFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[2]['chemin_maj'] );
+                        }
+                        
                         echo '<br>=====> Traitement Nature Diplome '.$cheminRelatif[3]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[3]['type_nomenclature'],$client);
                         $selectionNatureDiplome=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionNatureDiplome, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[3]['chemin_maj'] );
-
+                        if (empty($selectionNatureDiplome)) {
+                            echo 'Aucune nature diplôme sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionNatureDiplome, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[3]['chemin_maj'] );
+                        }
+                        
                         echo '<br>=====> Traitement Type Diplome '.$cheminRelatif[4]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[4]['type_nomenclature'],$client);
                         $selectionTypeDiplome=$refGen->formatRefTypeDiplome($bdRef,$selectionCursusFormation, $selectionNiveauFormation,$selectionNatureDiplome);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeDiplome, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[4]['chemin_maj'] );
+                        if (empty($selectionTypeDiplome)) {
+                            echo 'Aucun type diplôme sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeDiplome, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[4]['chemin_maj'] );
+                        }
                         break;
-
+                        
                     case 'TypeFormation' :
                         echo '<br>=====> Traitement Type Formation '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionTypeFormation=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        if (empty($selectionTypeFormation)) {
+                            echo 'Aucun type formation sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
+                        break;
 
-                        break;  
                     case 'TypeObjetFormation' :
                         echo '<br>=====> Traitement Type Objet Formation '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionTypeObjetFormation=$refGen->formatRefTypeObjetFormation($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeObjetFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        if (empty($selectionTypeObjetFormation)) {
+                            echo 'Aucun type objet formation sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeObjetFormation, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
+                        break;
 
-
-                        break; 
                     case 'TypeResultat' :
                         echo '<br>=====> Traitement Type Resultat '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionTypeResultat=$refGen->formatRefTypeResultat($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeResultat, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-                        break; 
+                        if (empty($selectionTypeResultat)) {
+                            echo 'Aucun type résultat sauvegardé en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionTypeResultat, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
+                        break;
 
                     case 'QuotiteActivite' :
                         echo '<br>=====> Traitement Quotite Activitee '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectRefNomenclatureGeneriqueDansBD($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionQuotiteActivite=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionQuotiteActivite, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
+                        if (empty($selectionQuotiteActivite)) {
+                            echo 'Aucune quotité d\'activité sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionQuotiteActivite, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
                         break;
 
                     case 'StructureUAI' :
@@ -601,14 +695,16 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                         //print_r($bdStructure);
                         //echo '<br>';
                         $selectionStructureResultat=$refStructure->formatStructure($bdStructure);
-                                                
-                        //echo 'transformation de la BD : selectionStructureResultat <br>';
-                        //print_r($selectionStructureResultat);
-                        //echo '<br>';
-                        //echo '<br>Token <br>';
-                        //echo $token.'<br>';
-                        $resultatAppelAPI=$refStructure->formatJsonPourAppelAPIPegase($selectionStructureResultat, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj']['sans_uai'], $cheminRelatif[1]['chemin_maj']['avec_uai'] );
-                        
+                        if (empty($selectionStructureResultat)) {
+                            echo 'Aucune structure sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            //echo 'transformation de la BD : selectionStructureResultat <br>';
+                            //print_r($selectionStructureResultat);
+                            //echo '<br>';
+                            //echo '<br>Token <br>';
+                            //echo $token.'<br>';
+                            $resultatAppelAPI=$refStructure->formatJsonPourAppelAPIPegase($selectionStructureResultat, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj']['sans_uai'], $cheminRelatif[1]['chemin_maj']['avec_uai'] );
+                        }
                         break;
 
                     case 'AssocierParentStructureUAI' :
@@ -618,14 +714,15 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                         //echo 'recuperation de la BD <br>';
                         //print_r($bdStructure);
                         $selectionStructureResultat=$refStructure->formatHierarchieStructure($bdStructure);
-                        echo 'transformation de la BD <br><pre>';
-                        print_r($selectionStructureResultat);
-                        echo '<br></pre>';
-                        //echo $token.'<br>';
-                        
-                        $resultatAppelAPI=$refStructure->formatJsonHierarchiePourAppelAPIPegase($selectionStructureResultat, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj']);
-                                                         
-                        
+                        if (empty($selectionStructureResultat)) {
+                            echo 'Aucune hiérarchie de structure sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            echo 'transformation de la BD <br><pre>';
+                            print_r($selectionStructureResultat);
+                            echo '<br></pre>';
+                            //echo $token.'<br>';
+                            $resultatAppelAPI=$refStructure->formatJsonHierarchiePourAppelAPIPegase($selectionStructureResultat, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj']);
+                        }
                         break;
 
 
@@ -649,10 +746,11 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
                         echo '<br>=====> Traitement injection des specialites BAC '.$cheminRelatif[1]['type_nomenclature'].'<br>';
                         $bdRef=$refGen->selectNomenclatureSpecialiteBacInitiale($cheminRelatif[1]['type_nomenclature'],$client);
                         $selectionSpecialitesBacGeneral=$refGen->formatRefGeneriqueAvecCBN($bdRef);
-                        $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionSpecialitesBacGeneral, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
-
-
-                        
+                        if (empty($selectionSpecialitesBacGeneral)) {
+                            echo 'Aucune spécialité de baccalauréat sauvegardée en base locale => aucune maj de Pégase';
+                        } else {
+                            $resultatAppelAPI=$refGen->formatJsonPourAppelAPIPegase($selectionSpecialitesBacGeneral, $actionMaj, $paramsEtab, $environnement, $token, $cheminRelatif[1]['chemin_maj'] );
+                        }
                         break;
 
                     //case 'Periode' :
@@ -665,21 +763,13 @@ if ( isset($_POST['etabEncours']) or isset($_GET['etabEncours']))
 
                     }
 
-            echo '===================== FIN DE TRAITEMENT DE MAJ DE PEGASE ===============<br>';
+            echo '<BR>===================== FIN DE TRAITEMENT DE MAJ DE PEGASE ===============<BR>';
             }
             
-            
-            }            
-            
-            
-        
- 
-        
-
+        }
         
         
-        // put your code here
         ?>
-            </p>
+        </p>
     </body>
 </html>

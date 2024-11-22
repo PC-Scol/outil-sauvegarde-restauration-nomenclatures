@@ -1,11 +1,17 @@
+-- ------------------------- --
+-- Role: owner_local_rdd      --
+-- ------------------------- --
+-- Role propriétaire des tables de l'outil de sauvegarde et de restauration des référentiels pegase
+
+CREATE ROLE owner_rdd_write;
+
 -- ------------------------------------- --
 -- SCHEMA: local_rdd                     --
 -- ------------------------------------- --
 
 -- DROP SCHEMA IF EXISTS local_rdd ;
 
-CREATE SCHEMA IF NOT EXISTS local_rdd
- AUTHORIZATION "dre-adm";
+CREATE SCHEMA IF NOT EXISTS local_rdd;
 
 COMMENT ON SCHEMA local_rdd
  IS 'Schema utilisé pour les outils locaux dans le cadre de la RDD';
@@ -16,20 +22,16 @@ COMMENT ON SCHEMA local_rdd
 -- ------------------------- --
 -- Role utilisé par l'outil de sauvegarde et de restauration des référentiels pegase
 
-
 -- DROP ROLE IF EXISTS role_rdd_write;
+CREATE ROLE role_rdd_write;
+COMMENT ON ROLE role_rdd_write IS 'Role permettant l''ecriture sur toutes les tables préfixées par rdd et pegase';
+GRANT USAGE ON SCHEMA local_rdd TO role_rdd_write ;
 
-CREATE ROLE role_rdd_write WITH
-  NOLOGIN
-  NOSUPERUSER
-  INHERIT
-  NOCREATEDB
-  NOCREATEROLE
-  NOREPLICATION
+CREATE ROLE usr_rdd_write WITH
+  LOGIN
   PASSWORD '<mot de passe>';
 
-COMMENT ON ROLE role_rdd_write IS 'Role permettant l''ecriture sur toutes les tables préfixées par rdd et pegase';
-
+GRANT role_rdd_write TO usr_rdd_write;
 
 -- ------------------------------------- --
 -- Table: local_rdd.rdd_ref_structure    --
@@ -107,17 +109,11 @@ CREATE TABLE IF NOT EXISTS local_rdd.rdd_ref_structure
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS local_rdd.rdd_ref_structure
-    OWNER to "dre-adm";
-
-REVOKE ALL ON TABLE local_rdd.rdd_ref_structure FROM "dre-adm";
-
-GRANT ALL ON TABLE local_rdd.rdd_ref_structure TO "dre-adm";
-
-GRANT ALL ON TABLE local_rdd.rdd_ref_structure TO "dre-adm";
+    OWNER to "owner_rdd_write";
 
 GRANT ALL ON TABLE local_rdd.rdd_ref_structure TO role_rdd_write;
 
-GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE local_rdd.rdd_ref_structure TO "dre-adm";
+--GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE local_rdd.rdd_ref_structure TO "owner_rdd_write";
 
 -- ------------------------------------------------ --
 -- Table: local_rdd.rdd_ref_nomenclature_generique  --
@@ -184,9 +180,7 @@ CREATE TABLE IF NOT EXISTS local_rdd.rdd_ref_nomenclature_generique
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS local_rdd.rdd_ref_nomenclature_generique
-    OWNER to "dre-adm";
-
-GRANT ALL ON TABLE local_rdd.rdd_ref_nomenclature_generique TO "dre-adm";
+    OWNER to "owner_rdd_write";
 
 GRANT ALL ON TABLE local_rdd.rdd_ref_nomenclature_generique TO role_rdd_write;
 

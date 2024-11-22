@@ -179,6 +179,8 @@ function recuperationTokenAPIPegase( $paramEtab) {
     
     
         
+    if ( empty($paramEtab['login_api']) OR empty($paramEtab['mdp_api'])) return false;
+
     //echo "<br>recuperatoinTokenAPIPegase : Entree<br>";
     
     //$paramEtab=$tabParamEtab[$pEtab][$pEnv];
@@ -197,7 +199,6 @@ function recuperationTokenAPIPegase( $paramEtab) {
     curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, TRUE);
     
     $data="username=".$paramEtab['login_api']."&password=".$paramEtab['mdp_api']."&token=true";
-    //$data="username=".$auth['login']."&password=".$auth['mdp'];
     curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $data);
     //curl_setopt($tuCurl, CURLOPT_HTTPHEADER, array("Content-Type : application/x-www-form-urlencoded", "Content-length: ".strlen($data)));
     
@@ -208,21 +209,24 @@ function recuperationTokenAPIPegase( $paramEtab) {
     
       $info = curl_getinfo($tuCurl);
     
-      echo 'Took ' . $info['total_time'] . ' seconds to send a request to ' . $info['url'];
+      echo '<BR>Took ' . $info['total_time'] . ' seconds to send a request to ' . $info['url'];
     
+      curl_close($tuCurl);
+    
+      return $tuData;
+
     } else {
     
       echo 'Curl error: ' . curl_error($tuCurl).'<br>';
       var_dump($tuCurl);
       echo '<br>Code retour anomalie '.curl_errno($tuCurl);
       
-      
+      curl_close($tuCurl);
     
-    }
+      return false;
+        
     
-    curl_close($tuCurl);
-    
-    return $tuData;
+    }    
     
 }
 
@@ -315,16 +319,11 @@ static function AppelAPIRecupReferentielMajInfos ($pNomenclature, $paramEtab, $p
     
     //curl_setopt($tuCurl, CURLOPT_SSLVERSION, 3);
     
-    
-    
     //curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
     
     curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, TRUE);
     
     //curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $data);
-    //curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $auth);
-    
-    //curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);  
     $token="Authorization: Bearer ".trim($pToken);
     $auth=$paramEtab['login_api'].":".$paramEtab['mdp_api'];
     curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);
@@ -378,7 +377,7 @@ static function AppelAPIRecupReferentielRecupInfos ($pNomenclature, $paramEtab, 
     
     $tuCurl = curl_init();
     
-    echo 'AppelAPIRecupReferentielRecupInfos : '.$pCheminRelatif.' '.$paramEtab['url_api_mof'].' Nomenclature '.$pNomenclature.'<br>';
+    echo 'AppelAPIRecupReferentielRecupInfos : '.$pCheminRelatif.' Nomenclature '.$pNomenclature.'<br>';
     
     switch ($pNomenclature) {
 
@@ -468,29 +467,24 @@ static function AppelAPIRecupReferentielRecupInfos ($pNomenclature, $paramEtab, 
 
 	function connect_postgres($paramEtab)
 	{
-
 		//include './constantes.php';
-                //$paramEtab=$tabParamEtab[$pEtabEncours][$pEnv];
-                //$paramEtab=$this->rechercheParamEtablissements($pEtabEncours, $pEnv);
-                //echo '<pre>';
-                //var_dump($paramEtab[$pEnv]);
-                //echo '</pre>';
-                //echo 'instance postgres '.$paramEtab[$pEnv]['instance'].'<br>';
-     
-                $chaineConnexion="host=".$paramEtab['host_bd']." port=".$paramEtab['port_bd']." dbname=".$paramEtab['instance']." user=".$paramEtab['login_bd']." password=".$paramEtab['mdp_bd'];
-                //echo 'Chaine de connexion '.$chaineConnexion.'<br>';
-            
-                //if ( $connpg=pg_connect("host=pegase-sgbd-preprod.grenet.fr port=5432 dbname=tspgsisav user=usr_pgs_adm_write password=usr_pgs_adm_write") )
-                if ( $connpg=pg_connect($chaineConnexion) )
-                        return $connpg;
-                    else {
-                         $err = pg_last_error();
-                         print_r($err);
-                    }
-		
-	        //print_r($connpg);
-		return $connpg;
+        //$paramEtab=$tabParamEtab[$pEtabEncours][$pEnv];
+        //$paramEtab=$this->rechercheParamEtablissements($pEtabEncours, $pEnv);
+        //echo '<pre>';
+        //var_dump($paramEtab[$pEnv]);
+        //echo '</pre>';
+        //echo 'instance postgres '.$paramEtab[$pEnv]['instance'].'<br>';
 
+        $chaineConnexion="host=".$paramEtab['host_bd']." port=".$paramEtab['port_bd']." dbname=".$paramEtab['instance']." user=".$paramEtab['login_bd']." password=".$paramEtab['mdp_bd'];
+        //echo 'Chaine de connexion '.$chaineConnexion.'<br>';
+        
+        if ( empty($paramEtab['host_bd'])
+            OR empty($paramEtab['port_bd'])
+            OR empty($paramEtab['instance'])
+            OR empty($paramEtab['login_bd'])
+            OR empty($paramEtab['mdp_bd'])) {
+            return false;
+        } else return pg_connect($chaineConnexion);
 	}
 
 	
