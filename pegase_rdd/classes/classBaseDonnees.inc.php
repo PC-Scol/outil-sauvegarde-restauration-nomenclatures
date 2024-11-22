@@ -240,32 +240,29 @@ static function AppelAPIRecupReferentielMajInfos ($pNomenclature, $paramEtab, $p
     
    switch ($pNomenclature) {
 
-        case 'Periode':
-            
-            $tab=json_decode($pJson,true);
+        //case 'Periode':
+        //    
+        //    $tab=json_decode($pJson,true);
             //print_r($tab);
-            
-            $url = $paramEtab['url_api_mof'].$pCheminRelatif;
+        //    $url = $paramEtab['url_api_mof'].$pCheminRelatif;
             //echo 'URL : '.$url.'<br>';
-            curl_setopt($tuCurl, CURLOPT_URL, $url);
-            curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
-            curl_setopt($tuCurl, CURLOPT_POST, TRUE);
-            
-            break;
+        //    curl_setopt($tuCurl, CURLOPT_URL, $url);
+        //    curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
+        //    curl_setopt($tuCurl, CURLOPT_POST, TRUE);
+        //    break;
 
        
-        case 'Formation':
-            
-            $tab=json_decode($pJson,true);
-            //print_r($tab);
-            
-            $url = $paramEtab['url_api_cof'].$pCheminRelatif.'/'.$tab["code"].'/'.$tab["version"].'/valider';
+        //case 'Formation':
+        //    
+        //    $tab=json_decode($pJson,true);
+        //    //print_r($tab);
+        //    
+        //    $url = $paramEtab['url_api_cof'].$pCheminRelatif.'/'.$tab["code"].'/'.$tab["version"].'/valider';
             //echo 'URL : '.$url.'<br>';
-            curl_setopt($tuCurl, CURLOPT_URL, $url);
-            curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
-            curl_setopt($tuCurl, CURLOPT_POST, TRUE);
-            
-            break;
+        //    curl_setopt($tuCurl, CURLOPT_URL, $url);
+        //    curl_setopt($tuCurl, CURLOPT_POSTFIELDS, $pJson);
+        //    curl_setopt($tuCurl, CURLOPT_POST, TRUE);
+        //    break;
 
         case 'AssocierParentStructureUAI':
             
@@ -381,32 +378,30 @@ static function AppelAPIRecupReferentielRecupInfos ($pNomenclature, $paramEtab, 
     
     switch ($pNomenclature) {
 
-        case 'periode':
-            
-            curl_setopt($tuCurl, CURLOPT_URL, $paramEtab['url_api_mof'].$pCheminRelatif);
-            $token="Authorization: Bearer ".trim($pToken);
-            $auth=$paramEtab['login_api'].":".$paramEtab['mdp_api'];
-            curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);
-            $header = array ("Content-Type: application/json",$token);
-            curl_setopt($tuCurl, CURLOPT_HEADER, TRUE);
-            curl_setopt($tuCurl, CURLOPT_HTTPHEADER, $header);            
+        //case 'periode':
+        //    
+        //    curl_setopt($tuCurl, CURLOPT_URL, $paramEtab['url_api_mof'].$pCheminRelatif);
+        //    $token="Authorization: Bearer ".trim($pToken);
+        //    $auth=$paramEtab['login_api'].":".$paramEtab['mdp_api'];
+        //    curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);
+        //    $header = array ("Content-Type: application/json",$token);
+        //    curl_setopt($tuCurl, CURLOPT_HEADER, TRUE);
+        //    curl_setopt($tuCurl, CURLOPT_HTTPHEADER, $header);            
+        //    break;
 
-            break;
-
         
         
         
-        case 'formations':
+        //case 'formations':
             
-            curl_setopt($tuCurl, CURLOPT_URL, $paramEtab['url_api_cof'].$pCheminRelatif);
-            $token="Authorization: Bearer ".trim($pToken);
-            $auth=$paramEtab['login_api'].":".$paramEtab['mdp_api'];
-            curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);
-            $header = array ("Content-Type: application/json",$token);
-            curl_setopt($tuCurl, CURLOPT_HEADER, TRUE);
-            curl_setopt($tuCurl, CURLOPT_HTTPHEADER, $header);            
-            
-            break;
+        //    curl_setopt($tuCurl, CURLOPT_URL, $paramEtab['url_api_cof'].$pCheminRelatif);
+        //    $token="Authorization: Bearer ".trim($pToken);
+        //    $auth=$paramEtab['login_api'].":".$paramEtab['mdp_api'];
+        //    curl_setopt($tuCurl, CURLOPT_USERPWD,  $auth);
+        //    $header = array ("Content-Type: application/json",$token);
+        //    curl_setopt($tuCurl, CURLOPT_HEADER, TRUE);
+        //    curl_setopt($tuCurl, CURLOPT_HTTPHEADER, $header);            
+        //    break;
         
         default:
             
